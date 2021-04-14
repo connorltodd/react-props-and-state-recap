@@ -5,6 +5,23 @@ import randomQuoteData from "../helpers/randomQuoteData";
 function SimpsonsQuoteList() {
   const [quotes, setQuotes] = React.useState([]);
 
+  // Runs for each render
+  React.useEffect(() => {
+    console.log("A rerender has been triggered");
+    // dont call any functions here which update the state, this will cause infinite loops
+  });
+
+  // Runs once when the component is mounted
+  React.useEffect(() => {
+    console.log("component has mounted");
+    fetchQuotes(10);
+  }, []);
+
+  // Runs every time the item in the dependency array updates
+  React.useEffect(() => {
+    console.log("new quotes have been loaded");
+  }, [quotes]);
+
   function fetchQuotes(quoteCount) {
     fetch(`https://thesimpsonsquoteapi.glitch.me/quotes?count=${quoteCount}`)
       .then((response) => response.json())
